@@ -340,12 +340,10 @@ public class PHPUnitLaunchConfigurationDelegate extends PHPExecutableLaunchDeleg
 		// Try get any user variable at first.
 		envVariables = wconfig.getAttribute(ILaunchManager.ATTR_ENVIRONMENT_VARIABLES, new HashMap<String, String>());
 		envVariables = ObjectUtils.defaultIfNull(envVariables, new HashMap<>());
-		envVariables.computeIfAbsent(ENV_PORT, key -> {
+		if (!envVariables.containsKey(ENV_PORT)) {
 			final String port = String.valueOf(PHPUnitPreferenceKeys.getPort());
-			envVariables.put(key, port);
-			return port;
-		});
-
+			envVariables.put(ENV_PORT, port);
+		}
 		wconfig.setAttribute(ILaunchManager.ATTR_ENVIRONMENT_VARIABLES, envVariables);
 	}
 
